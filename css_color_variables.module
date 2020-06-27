@@ -1,0 +1,86 @@
+<?php
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function css_color_variables_page_attachments_alter(array &$page) {
+  // Add css color variables.
+  if (\Drupal::moduleHandler()->moduleExists('color')) {
+    $theme = \Drupal::service('theme.manager')->getActiveTheme();
+    /* @var $conf \Drupal\Core\Config\ImmutableConfig */
+    $conf = Drupal::config('color.theme.' . $theme->getName());
+
+    if ($conf && !$conf->isNew() && is_array($conf->get('palette'))) {
+
+      $page['#attached']['html_head'][] = [
+        [
+          '#tag' => 'style',
+          '#value' => css_color_variables_create_css_vars($conf->get('palette')),
+        ],
+        $theme->getName(),
+      ];
+
+      if (isset($page['#cache']['tags'])) {
+        $page['#cache']['tags'] = array_merge(
+          $page['#cache']['tags'],
+          $conf->getCacheTags(),
+          ['config.system.theme']
+        );
+      }
+      else {
+        $page['#cache']['tags'] = array_merge(
+          $conf->getCacheTags(),
+          ['config.system.theme'],
+        );
+
+      }
+
+    }
+  }
+}
+
+/**
+ * Color palette as root css variables.
+ *
+ * @param array $palette
+ *   Drupal color module palette.
+ *
+ * @return string
+ *   CSS code.
+ */
+function css_color_variables_create_css_vars(array $palette) : string {
+  $css = [];
+  $css[] = ':root {';
+  foreach ($palette as $color => $value) {
+    $css[] = '  --' . str_replace('_', '-', $color) . ': ' . $value . ';';
+  }
+  $css[] = '}';
+  return implode(PHP_EOL, $css);
+}
+
+/**
+ * Implements hook_library_info_build().
+ *
+ * WILL ONLY BE FIRED WHEN THE LIBRARY IS INVOKED !!
+ */
+//function css_color_variables_library_info_build() : array {
+//  $libraries = [];
+//
+//
+//  if (\Drupal::moduleHandler()->moduleExists('color')) {
+//    $X = \Drupal::service('theme.manager')->getActiveTheme();
+//
+//    $X = FALSE;
+////    $libraries['mymodule.zombie'] += [
+////      'js' => [
+////        'mymodule.zombie.min.js' => [],
+////      ],
+////      'css' => [
+////        'base' => [
+////          'mymodule.zombie.min.css' => [],
+////        ],
+////      ],
+////    ];
+//  }
+//  return $libraries;
+//}

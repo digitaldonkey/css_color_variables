@@ -1,0 +1,7 @@
+name: Css color variables
+type: module
+description: Enhance your theme with a color module based CSS variables
+core: 8.x
+package: Theming
+dependencies:
+  - color
