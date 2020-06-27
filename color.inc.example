@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Lists available colors and color schemes for the IITB DJ theme.
+ */
+
+$info = [
+  // Available colors and color labels used in theme.
+  'fields' => [
+    'site_background_color' => t('Window background'),
+    'font_content_color' => t('Main font color'),
+    'content_background_color' => t('Content background'),
+    'header_background_color' => t('Header background'),
+    'peripheral_color_primary' => t('Primary'),
+    'font_contrast_color_primary' => t('Primary contrast'),
+    'peripheral_color_secondary' => t('Secondary'),
+    'font_contrast_color_secondary' => t('Secondary contrast'),
+    'paragraphs_header_background_color' => t('Paragraphs Header background'),
+    'font_header_color' => t('Font on Header background'),
+    'font_footer_color' => t('Font on Footer background'),
+  ],
+  // Pre_defined color schemes.
+  'schemes' => [
+    'default' => [
+      'title' => t('NRW (default)'),
+      'colors' => [
+        'site_background_color' => '#c0c0c0',
+        'font_content_color' => '#333333',
+        'content_background_color' => '#ffffff',
+        'header_background_color' => '#ffffff',
+        'peripheral_color_primary' => '#233755',
+        'font_contrast_color_primary' => '#ffffff',
+        'peripheral_color_secondary' => '#3C506E',
+        'font_contrast_color_secondary' => '#ffffff',
+        'paragraphs_header_background_color' => '#EAEFF6',
+        'font_header_color' => '#3C506E',
+        'font_footer_color' => '#ffffff',
+      ],
+    ],
+    'crazy' => [
+      'title' => t('Crazy colors'),
+      'colors' => [
+        'site_background_color' => '#FF835B',
+        'font_content_color' => '#000000',
+        'content_background_color' => '#FFBF51',
+        'header_background_color' => '#C890FF',
+        'peripheral_color_primary' => '#c41d4d',
+        'font_contrast_color_primary' => '#1bd9dd',
+        'peripheral_color_secondary' => '#6335AE',
+        'font_contrast_color_secondary' => '#ffff00',
+        'paragraphs_header_background_color' => '#afff74',
+        'font_header_color' => '#ffca54',
+        'font_footer_color' => '#ff94f4',
+      ],
+    ],
+  ],
+];

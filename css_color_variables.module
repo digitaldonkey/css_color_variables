@@ -9,13 +9,12 @@ function css_color_variables_page_attachments_alter(array &$page) {
     $theme = \Drupal::service('theme.manager')->getActiveTheme();
     /* @var $conf \Drupal\Core\Config\ImmutableConfig */
     $conf = Drupal::config('color.theme.' . $theme->getName());
-
-    if ($conf && !$conf->isNew() && is_array($conf->get('palette'))) {
-
+    $colors = color_get_palette($theme->getName());
+    if ($colors) {
       $page['#attached']['html_head'][] = [
         [
           '#tag' => 'style',
-          '#value' => css_color_variables_create_css_vars($conf->get('palette')),
+          '#value' => css_color_variables_create_css_vars($colors),
         ],
         $theme->getName(),
       ];
@@ -57,30 +56,3 @@ function css_color_variables_create_css_vars(array $palette) : string {
   $css[] = '}';
   return implode(PHP_EOL, $css);
 }
-
-/**
- * Implements hook_library_info_build().
- *
- * WILL ONLY BE FIRED WHEN THE LIBRARY IS INVOKED !!
- */
-//function css_color_variables_library_info_build() : array {
-//  $libraries = [];
-//
-//
-//  if (\Drupal::moduleHandler()->moduleExists('color')) {
-//    $X = \Drupal::service('theme.manager')->getActiveTheme();
-//
-//    $X = FALSE;
-////    $libraries['mymodule.zombie'] += [
-////      'js' => [
-////        'mymodule.zombie.min.js' => [],
-////      ],
-////      'css' => [
-////        'base' => [
-////          'mymodule.zombie.min.css' => [],
-////        ],
-////      ],
-////    ];
-//  }
-//  return $libraries;
-//}
