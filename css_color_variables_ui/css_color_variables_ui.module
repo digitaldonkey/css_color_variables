@@ -1,0 +1,38 @@
+<?php
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_page_attachments().
+ */
+function css_color_variables_ui_page_attachments(array &$attachments) {
+  if (!\Drupal::service('router.admin_context')->isAdminRoute() && \Drupal::currentUser()->hasPermission('use color schema ui')) {
+    $template = [
+      '#theme' => 'css_color_variables_ui',
+    ];../css_color_variables_ui.module
+    $attachments['#attached']['drupalSettings']['css_color_variables_ui'] = [
+      'get_color_info' => Url::fromRoute('css_color_variables_ui.get_color_info')->toString(),
+      'save_color_info' => Url::fromRoute('css_color_variables_ui.save_color_info')->toString(),
+      'html_template' => \Drupal::service('renderer')->renderPlain($template)->__toString(),
+      'current_route' => \Drupal::routeMatch()->getRouteName(),
+    ];
+    $attachments['#attached']['library'][] = 'css_color_variables_ui/color_widget';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function css_color_variables_ui_theme($existing, $type, $theme, $path) {
+  if (\Drupal::moduleHandler()->moduleExists('color')) {
+    $theme = \Drupal::service('theme.manager')->getActiveTheme();
+    $theme_color_definition = color_get_info($theme->getName());
+    return [
+      'css_color_variables_ui' => [
+        'variables' => [
+          'colors' => $theme_color_definition['fields']
+        ],
+      ],
+    ];
+  }
+}

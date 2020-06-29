@@ -1,0 +1,14 @@
+<div id="color-schema-ui">
+  {% for colorMachineName, colorHumanReadableName in colors %}
+    <div class="{{ colorMachineName }}" >
+      <button
+        type="button"
+        style="background-color: var(--{{ colorMachineName|replace({'_': '-',}) }});"
+        data-color="{{ colorMachineName }}"
+        class="btn btn-default
+      ">{{ colorHumanReadableName }}</button>
+    </div>
+  {% endfor %}
+  <br />
+  <button type="button" class="btn btn-default save">{{ 'Save'|t }}</button>
+</div>

@@ -1,0 +1,8 @@
+name: Css life color edit
+type: module
+description: Live editing colors with css_color_variables
+core: 8.x
+package: Theming
+dependencies:
+  - color
+  - css_color_variables

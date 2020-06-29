@@ -1,16 +1,22 @@
 <?php
 
 /**
+ * @file
+ * Render current theme color variables as CSS vars in HTML header.
+ */
+
+/**
  * Implements hook_page_attachments_alter().
  */
 function css_color_variables_page_attachments_alter(array &$page) {
-  // Add css color variables.
+
   if (\Drupal::moduleHandler()->moduleExists('color')) {
     $theme = \Drupal::service('theme.manager')->getActiveTheme();
     /* @var $conf \Drupal\Core\Config\ImmutableConfig */
     $conf = Drupal::config('color.theme.' . $theme->getName());
     $colors = color_get_palette($theme->getName());
     if ($colors) {
+      // Add CSS color variables.
       $page['#attached']['html_head'][] = [
         [
           '#tag' => 'style',
@@ -18,7 +24,7 @@ function css_color_variables_page_attachments_alter(array &$page) {
         ],
         $theme->getName(),
       ];
-
+      // Cache.
       if (isset($page['#cache']['tags'])) {
         $page['#cache']['tags'] = array_merge(
           $page['#cache']['tags'],
@@ -27,13 +33,8 @@ function css_color_variables_page_attachments_alter(array &$page) {
         );
       }
       else {
-        $page['#cache']['tags'] = array_merge(
-          $conf->getCacheTags(),
-          ['config.system.theme'],
-        );
-
+        $page['#cache']['tags'] = array_merge($conf->getCacheTags(), ['config.system.theme']);
       }
-
     }
   }
 }

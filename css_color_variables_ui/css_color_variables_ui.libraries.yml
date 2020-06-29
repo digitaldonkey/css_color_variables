@@ -1,0 +1,9 @@
+color_widget:
+  js:
+    build/css-color-variables-ui.js: {}
+  css:
+    theme:
+      build/main.css: {}
+
+
+

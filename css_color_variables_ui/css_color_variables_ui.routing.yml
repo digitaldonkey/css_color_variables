@@ -1,0 +1,15 @@
+css_color_variables_ui.get_color_info:
+  path: '/css_color_variables_ui/color-info'
+  defaults:
+    _title: 'Get current theme color settings'
+    _controller: '\Drupal\css_color_variables_ui\Controller\ColorVariablesUiController::getColorInfo'
+  requirements:
+    _permission: 'use color schema ui'
+css_color_variables_ui.save_color_info:
+  path: '/css_color_variables_ui/save'
+  defaults:
+    _title: 'Update color settings'
+    _controller: '\Drupal\css_color_variables_ui\Controller\ColorVariablesUiController::saveColors'
+  requirements:
+    _permission: 'use color schema ui'
+
