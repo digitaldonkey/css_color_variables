@@ -9,16 +9,16 @@ $info = [
   // Available colors and color labels used in theme.
   'fields' => [
     'site_background_color' => t('Window background'),
-    'font_content_color' => t('Main font color'),
-    'content_background_color' => t('Content background'),
-    'header_background_color' => t('Header background'),
-    'peripheral_color_primary' => t('Primary'),
-    'font_contrast_color_primary' => t('Primary contrast'),
-    'peripheral_color_secondary' => t('Secondary'),
-    'font_contrast_color_secondary' => t('Secondary contrast'),
-    'paragraphs_header_background_color' => t('Paragraphs Header background'),
-    'font_header_color' => t('Font on Header background'),
-    'font_footer_color' => t('Font on Footer background'),
+    'font_content_color' => t('Content font color'),
+    'content_background_color' => t('Content background color'),
+    'header_background_color' => t('Header background color'),
+    'peripheral_color_primary' => t('Peripheral color primary'),
+    'font_contrast_color_primary' => t('Font on primary color background'),
+    'peripheral_color_secondary' => t('Peripheral color secondary'),
+    'font_contrast_color_secondary' => t('Font on secondary color background'),
+    'paragraphs_header_background_color' => t('Paragraphs header background color'),
+    'font_header_color' => t('Header font color'),
+    'font_footer_color' => t('Footer font color'),
   ],
   // Pre_defined color schemes.
   'schemes' => [
