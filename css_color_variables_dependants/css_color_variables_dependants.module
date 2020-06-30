@@ -1,0 +1,135 @@
+<?php
+
+/**
+ * @file
+ * Allows css variables derived from the color module colors.
+ */
+
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Append color variations to given colors.
+ *
+ * @param array $colors
+ *   Color palette array.
+ * @param string $theme
+ *   Theme machine name.
+ */
+function css_color_variables_dependants_css_color_variables_alter(array &$colors, string $theme) {
+  // Look for yourtheme_css_variable_dependants.yml.
+  $path = DRUPAL_ROOT . '/' . drupal_get_path('theme', $theme) . '/color/css_color_variables_dependants.yml';
+  if (file_exists($path)) {
+    try {
+      $color_derivates = Yaml::parseFile($path);
+      if ($color_derivates && count($color_derivates)) {
+        foreach ($color_derivates as $set) {
+          if (isset($colors[$set['name']])) {
+            $color = $set['name'];
+            foreach ($set['variants'] as $der) {
+              $action_id = key($der);
+              $val = $der[$action_id];
+              if (!preg_match('/^(100|[1-9]?[0-9])$/', $val)) {
+                throw new \Exception('Color action value must be integer value in range 0-100 [5]' . $val . ' is invalid.');
+              }
+              $derivate = css_color_variables_dependants_derivate_name($color, $action_id, $val);
+              if (isset($colors[$derivate])) {
+                throw new \Exception('Color variant ' . $derivate . ' already defined');
+              }
+              // Any action
+              // Can be in active theme or here.
+              $default_action = 'css_color_variables_dependants_action_' . $action_id;
+              if (function_exists($theme . '_action_' . $action_id)) {
+                $colors[$derivate] = call_user_func($theme . '_action_' . $action_id, $colors[$color], $val);
+              }
+              elseif (function_exists($default_action)) {
+                $colors[$derivate] = call_user_func($default_action, $colors[$color], $val);
+              }
+              else {
+                throw new \Exception('Color variant action ' . $default_action . ' not implemented.');
+              }
+            }
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('css_color_variables_dependants_css_color_variables_alter')->error($e->getMessage());
+    }
+  }
+}
+
+/**
+ *
+ */
+function css_color_variables_dependants_derivate_name(string $color, string $action, string $val) {
+  return $color . '_' . $action . '_' . $val;
+}
+
+/**
+ *
+ */
+function css_color_variables_dependants_action_darken(string $color, string $percent) {
+  // Drupal Color Module
+  //  _color_hsl2rgb($hsl)
+  //  _color_hue2rgb($m1, $m2, $h)
+  //  _color_rgb2hsl($rgb)
+  // Custom
+  // css_color_variables_dependants_hecToRGB
+  $rgb_arran = css_color_variables_dependants_hecToRGB($color);
+
+  $steps = -1 * intval(255 / 100 * $percent);
+  return css_color_variables_dependants_adjust_rightness($color, $steps);
+}
+
+/**
+ *
+ */
+function css_color_variables_dependants_action_lighten(string $color, string $percent) {
+  $steps = intval(255 / 100 * $percent);
+  return css_color_variables_dependants_adjust_rightness($color, $steps);
+}
+
+/**
+ *
+ */
+function css_color_variables_dependants_action_opacity(string $color, string $percent) {
+  $hex = dechex(intval(255 / 100 * $percent));
+  return $color . $hex;
+}
+
+/**
+ *
+ */
+function css_color_variables_dependants_hecToRGB($val) {
+  $sTrimmedString = substr(trim($val), 1, 6);
+  return array_map('hexdec', str_split($sTrimmedString, 2));
+}
+
+/**
+ * CSS like color adjustment.
+ *
+ * @credit https://stackoverflow.com/a/11951022/308533.
+ */
+function css_color_variables_dependants_adjust_rightness($hex, $steps) {
+  // Steps should be between -255 and 255. Negative = darker, positive = lighter.
+  $steps = max(-255, min(255, $steps));
+
+  // Normalize into a six character long hex string.
+  $hex = str_replace('#', '', $hex);
+  if (strlen($hex) == 3) {
+    $hex = str_repeat(substr($hex, 0, 1), 2)
+      . str_repeat(substr($hex, 1, 1), 2)
+      . str_repeat(substr($hex, 2, 1), 2);
+  }
+  $color_parts = str_split($hex, 2);
+  $return = '#';
+
+  foreach ($color_parts as $color) {
+    $color = hexdec($color);
+    $color = max(0, min(255, $color + $steps));
+    // Make two char hex code.
+    $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT);
+  }
+
+  return $return;
+}

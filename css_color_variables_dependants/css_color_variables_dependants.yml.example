@@ -1,0 +1,18 @@
+# Array of variable dependants like
+#  name: color_machine_name
+#  variants:
+#    - darken: [0-100]
+#    - lighten: [0-100]
+#    - opacity: [100-0]
+- name: peripheral_color_primary
+  variants:
+    - darken: 5
+    - darken: 15
+    - lighten: 15
+    - opacity: 70
+- name: peripheral_color_secondary
+  variants:
+    - darken: 5
+    - darken: 15
+    - lighten: 15
+    - opacity: 70

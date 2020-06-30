@@ -12,20 +12,6 @@ use Drupal\Component\Utility\Color;
  */
 class ColorVariablesUiController extends ControllerBase {
 
-  // /* @var $requestContentHandler \Drupal\color_schema_ui\RequestContentHandler*/
-  //  private $requestContentHandler;
-  //
-  //  public function __construct(RequestContentHandler $requestContentHandler) {
-  //    $this->requestContentHandler = $requestContentHandler;
-  //  }
-  //
-  //  public static function create(ContainerInterface $container) {
-  //    return new static(
-  //      $container->get('color_schema_ui.request_content_handler')
-  //    );
-  //  }
-  //
-
   /**
    * @return \Symfony\Component\HttpFoundation\JsonResponse
    */
@@ -56,15 +42,22 @@ class ColorVariablesUiController extends ControllerBase {
 
       /* @var $conf \Drupal\Core\Config\Config */
       $conf = \Drupal::configFactory()->getEditable('color.theme.' . $theme->getName());
+      $old_paleette = $conf->get('palette');
       $conf->set('palette', $values);
       $conf->save();
-      $response = $conf->getRawData();
     }
-    catch (\Exception $exception) {
+    catch (\Exception $e) {
+      \Drupal::logger('css_color_variables')->error($e->getMessage());
       return new JsonResponse('Invalid data', 400);
     }
-
     $response = $values;
+    \Drupal::logger('css_color_variables')->info('Updated Colors @var', [
+      '@var' => print_r([
+        'old' => $old_paleette,
+        'new' => $values,
+      ], true)
+    ]);
+
     return new JsonResponse($response);
   }
 

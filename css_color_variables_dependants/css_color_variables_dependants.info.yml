@@ -1,0 +1,8 @@
+name: Creates css variable derivates
+type: module
+description: Test
+core: 8.x
+package: Theming
+dependencies:
+  - color
+  - css_color_variables
