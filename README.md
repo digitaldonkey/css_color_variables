@@ -12,7 +12,7 @@ As a frontend guy I love CSS variables. I think they are "the future" because ..
 
 * Color module (core) must be enabled
 * Your theme must have a [color palette](https://www.drupal.org/docs/theming-drupal/color-module).
-* Current Browser Support Webkit/Edge/FF
+* Current Browser Support Webkit/Edge/FF/ie11 (ie with submodule)
 
 ##### Enable Theme colors / add color palette
 
@@ -107,7 +107,7 @@ You could end up with something like
 }
 ```
 
-Copy css_color_variables_dependants/css_color_variables_dependants.yml.example to your themes color directory and play around with it.
+Copy *css_color_variables_dependants/css_color_variables_dependants.yml.example* to your themes color directory and play around with it.
 
 Your theme should look like.
 
