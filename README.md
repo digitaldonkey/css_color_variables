@@ -117,11 +117,3 @@ myTheme
    - color.inc
    - css_color_variables_dependants.yml
 ```
-
-
-## TODO
-
-* Submodule ie11 support
-	* Only ie11 polyfill planed so far
-* Main module
-	* CSS inline or dynamic library by settings (better support dor external aggregation)
