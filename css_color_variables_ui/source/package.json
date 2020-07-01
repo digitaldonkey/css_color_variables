@@ -1,5 +1,5 @@
 {
-  "name": "permissions_by_term",
+  "name": "css_color_variables_ui",
   "description": "JavaScript package definition",
   "dependencies": {
     "@babel/core": "^7.10.3",
