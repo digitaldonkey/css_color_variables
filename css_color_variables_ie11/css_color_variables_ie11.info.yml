@@ -1,0 +1,8 @@
+name: Internet Explorer 11 polyfill for css variables
+type: module
+description: Ie11 is the new ie6. So some things have to be done.
+core: 8.x
+package: Theming
+dependencies:
+  - color
+  - css_color_variables

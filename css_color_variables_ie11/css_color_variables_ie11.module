@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @file
+ * Adds polyfill for ie11.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function css_color_variables_ie11_theme($existing, $type, $theme, $path) {
+  return [
+    'css_color_variables_ie11' => [
+      'variables' => [
+        'script_source' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function css_color_variables_ie11_page_attachments_alter(array &$page) {
+  $moduleHandler = \Drupal::moduleHandler();
+  if ($moduleHandler->moduleExists('color') && $moduleHandler->moduleExists('css_color_variables')) {
+    $theme = \Drupal::service('theme.manager')->getActiveTheme();
+    $colors = color_get_palette($theme->getName());
+    if ($colors) {
+      $libraryDiscovery = \Drupal::service('library.discovery');
+      $sourcePath = NULL;
+      // && $key !== 'css_color_variables_ie11'
+      foreach ($moduleHandler->getModuleList() as $key => $extension) {
+        if ($libraryDiscovery->getLibraryByName($key, 'ie11_css_variables_polyfill') && $key !== 'css_color_variables_ie11') {
+          // TODO maybe there should be a smarter path selection here.
+          $sourcePath = $libraryDiscovery->getLibraryByName($key, 'ie11_css_variables_polyfill')['js'][0]['data'];
+        }
+      }
+      if (!$sourcePath) {
+        // Fall back on external CDN source.
+        $sourcePath = $libraryDiscovery->getLibraryByName('css_color_variables_ie11', 'ie11_css_variables_polyfill_external')['js'][0]['data'];
+      }
+      $page['#attached']['html_head'][] = [
+        [
+          '#theme' => 'css_color_variables_ie11',
+          '#script_source' => $sourcePath,
+          '#tag' => 'script',
+        ],
+        'css_color_variables_ie11',
+      ];
+    }
+  }
+}

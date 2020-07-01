@@ -1,0 +1,24 @@
+ie11_css_variables_polyfill_external:
+  remote: https://github.com/nuxodin/ie11CustomProperties
+  version: v4.1.0
+  header: true
+  license:
+    name: MIT
+    url: https://raw.githubusercontent.com/nuxodin/ie11CustomProperties/0a9334bdc6ae415fcb8cc497b993164533348802/LICENSE
+    gpl-compatible: true
+  js:
+    https://cdn.jsdelivr.net/gh/nuxodin/ie11CustomProperties@4.1.0/ie11CustomProperties.min.js: { type: external, minified: true }
+
+# Add your own to use without CDN.
+# E.g:
+#
+# ie11_css_variables_polyfill:
+#   remote: https://github.com/nuxodin/ie11CustomProperties
+#   version: v4.1.0
+#   header: true
+#   license:
+#     name: MIT
+#     url: https://raw.githubusercontent.com/nuxodin/ie11CustomProperties/0a9334bdc6ae415fcb8cc497b993164533348802/LICENSE
+#     gpl-compatible: true
+#   js:
+#     /ie11CustomProperties.min.js: {}
