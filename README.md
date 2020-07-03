@@ -42,7 +42,7 @@ After setting custom theme color variables you should see something like
 }
 ```
 
-in &lt;header</gt; of your your page source.
+in <code>&lt;header&gt;</code> of your your page source.
 
 So in your theme (S)CSS you can do things like
 
@@ -99,7 +99,7 @@ You could end up with something like
 
 ```css
 :root {
-  --font-contrast-color-primary: #ffffff;
+  --peripheral-color-primary: ##233755;
   --peripheral-color-primary-darken-5: #176a1e;
   --peripheral-color-primary-darken-15: #005004;
   --peripheral-color-primary-lighten-15: #499c50;
@@ -107,7 +107,7 @@ You could end up with something like
 }
 ```
 
-Copy *css_color_variables_dependants/css_color_variables_dependants.yml.example* to your themes color directory and play around with it.
+Copy the file `css_color_variables_dependants.yml.example` to your themes `color` directory and play around with it.
 
 Your theme should look like.
 
