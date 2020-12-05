@@ -24,16 +24,20 @@ function css_color_variables_ie11_theme($existing, $type, $theme, $path) {
 function css_color_variables_ie11_page_attachments_alter(array &$page) {
   $moduleHandler = \Drupal::moduleHandler();
   if ($moduleHandler->moduleExists('color') && $moduleHandler->moduleExists('css_color_variables')) {
-    $theme = \Drupal::service('theme.manager')->getActiveTheme();
-    $colors = color_get_palette($theme->getName());
+    $colors = css_color_variables_get_palette();
     if ($colors) {
       $libraryDiscovery = \Drupal::service('library.discovery');
       $sourcePath = NULL;
+
       // && $key !== 'css_color_variables_ie11'
       foreach ($moduleHandler->getModuleList() as $key => $extension) {
-        if ($libraryDiscovery->getLibraryByName($key, 'ie11_css_variables_polyfill') && $key !== 'css_color_variables_ie11') {
-          // TODO maybe there should be a smarter path selection here.
-          $sourcePath = $libraryDiscovery->getLibraryByName($key, 'ie11_css_variables_polyfill')['js'][0]['data'];
+        // Check if any module defined a ie11_css_variables_polyfill fontend libary.
+        // File module crashes tho.
+        if ($key !== 'file') {
+          if ($libraryDiscovery->getLibraryByName($key, 'ie11_css_variables_polyfill')) {
+            // TODO maybe there should be a smarter path selection here.
+            $sourcePath = $libraryDiscovery->getLibraryByName($key, 'ie11_css_variables_polyfill')['js'][0]['data'];
+          }
         }
       }
       if (!$sourcePath) {

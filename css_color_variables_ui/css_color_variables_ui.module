@@ -23,16 +23,19 @@ function css_color_variables_ui_page_attachments(array &$attachments) {
 /**
  * Implements hook_theme().
  */
-function css_color_variables_ui_theme($existing, $type, $theme, $path) {
+function css_color_variables_ui_theme($existing, $type, $theme, $path) : ?array {
   if (\Drupal::moduleHandler()->moduleExists('color')) {
     $theme = \Drupal::service('theme.manager')->getActiveTheme();
     $theme_color_definition = color_get_info($theme->getName());
-    return [
-      'css_color_variables_ui' => [
-        'variables' => [
-          'colors' => $theme_color_definition['fields']
+    if ($theme_color_definition) {
+      return [
+        'css_color_variables_ui' => [
+          'variables' => [
+            'colors' => $theme_color_definition['fields']
+          ],
         ],
-      ],
-    ];
+      ];
+    }
   }
+  return NULL;
 }

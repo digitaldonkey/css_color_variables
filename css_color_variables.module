@@ -11,14 +11,12 @@
 function css_color_variables_page_attachments_alter(array &$page) {
 
   if (\Drupal::moduleHandler()->moduleExists('color')) {
-    $theme = \Drupal::service('theme.manager')->getActiveTheme();
-    /* @var $conf \Drupal\Core\Config\ImmutableConfig */
-    $conf = Drupal::config('color.theme.' . $theme->getName());
-    $colors = color_get_palette($theme->getName());
+
+    $colors = css_color_variables_get_palette();
     if ($colors) {
-      // Allow modules to alter the color palette.
-      // Provides hook_css_color_variables_alter(&$colors, $theme_name).
-      \Drupal::moduleHandler()->invokeAll('css_color_variables_alter', [&$colors, $theme->getName()]);
+      $theme = \Drupal::service('theme.manager')->getActiveTheme();
+      /* @var $conf \Drupal\Core\Config\ImmutableConfig */
+      $conf = Drupal::config('color.theme.' . $theme->getName());
 
       // Add CSS color variables.
       $page['#attached']['html_head'][] = [
@@ -41,6 +39,21 @@ function css_color_variables_page_attachments_alter(array &$page) {
       }
     }
   }
+}
+
+/**
+ * Gets current themes colors.
+ */
+function css_color_variables_get_palette():?array {
+  $theme = \Drupal::service('theme.manager')->getActiveTheme();
+  if (color_get_info($theme->getName())) {
+    $colors = color_get_palette($theme->getName());
+    // Allow modules to alter the color palette.
+    // Provides hook_css_color_variables_alter(&$colors, $theme_name).
+    \Drupal::moduleHandler()->invokeAll('css_color_variables_alter', [&$colors, $theme->getName()]);
+    return $colors;
+  }
+  return NULL;
 }
 
 /**
