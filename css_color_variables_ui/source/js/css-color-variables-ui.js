@@ -10,10 +10,11 @@ import color from 'color';
   Drupal.behaviors.addLocalTaskCssColorVariablesUiToggle = {
     attach: () => {
       if (!_.isEmpty(drupalSettings.css_color_variables_ui.current_route)) {
-        $('.user-logged-in .nav-tabs.tabs--primary')
+        const menu = $('.user-logged-in .nav-tabs.tabs--primary').length ? $('.user-logged-in .nav-tabs.tabs--primary') : $('.user-logged-in .nav-tabs.primary');
+        menu
           .once()
           .append(
-            '<li><a href="#" title="Color schema UI toggle" class="color-schema-ui-toggle disabled">Color schema UI toggle</a></li>'
+            '<li class="nav-item"><a href="#" title="Color schema UI toggle" class="color-schema-ui-toggle disabled"><span class="nav-link">Color schema UI toggle</span></a></li>'
           );
       }
     }
