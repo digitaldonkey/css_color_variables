@@ -4,6 +4,7 @@
       <div class="{{ colorMachineName }}" >
         <button
           type="button"
+          title="CSS variable name: --{{ colorMachineName|replace({'_': '-',}) }}"
           style="background-color: var(--{{ colorMachineName|replace({'_': '-',}) }});"
           data-color="{{ colorMachineName }}"
           class="btn btn-default">{{ colorHumanReadableName }}</button>
