@@ -6,6 +6,7 @@
  */
 
 use Symfony\Component\Yaml\Yaml;
+use Drupal\Component\Utility\NestedArray;
 
 /**
  * Append color variations to given colors.
@@ -20,14 +21,16 @@ function css_color_variables_dependants_css_color_variables_alter(array &$colors
   $path = DRUPAL_ROOT . '/' . drupal_get_path('theme', $theme) . '/color/css_color_variables_dependants.yml';
   if (file_exists($path)) {
     try {
-      $color_derivates = Yaml::parseFile($path);
+      $conf = Yaml::parseFile($path);
+      $color_derivates = $conf['colors'];
       if ($color_derivates && count($color_derivates)) {
         foreach ($color_derivates as $set) {
           if (isset($colors[$set['name']])) {
             $color = $set['name'];
-            foreach ($set['variants'] as $der) {
-              $action_id = key($der);
-              $val = $der[$action_id];
+            $variants = isset($set['variants']) ? NestedArray::mergeDeep($conf['default_variants'], $set['variants']) : $conf['default_variants'];
+            foreach ($variants as $derivate) {
+              $action_id = key($derivate);
+              $val = $derivate[$action_id];
               if (!preg_match('/^(100|[1-9]?[0-9])$/', $val)) {
                 throw new \Exception('Color action value must be integer value in range 0-100 [5]' . $val . ' is invalid.');
               }
@@ -62,35 +65,33 @@ function css_color_variables_dependants_css_color_variables_alter(array &$colors
  *
  */
 function css_color_variables_dependants_derivate_name(string $color, string $action, string $val) {
-  return $color . '_' . $action . '_' . $val;
+  return $color . '__' . $action . '_' . $val;
 }
 
 /**
  *
  */
 function css_color_variables_dependants_action_darken(string $color, string $percent) {
-  // Drupal Color Module
-  //  _color_hsl2rgb($hsl)
-  //  _color_hue2rgb($m1, $m2, $h)
-  //  _color_rgb2hsl($rgb)
-  // Custom
-  // css_color_variables_dependants_hecToRGB
-  $rgb_arran = css_color_variables_dependants_hecToRGB($color);
-
-  $steps = -1 * intval(255 / 100 * $percent);
-  return css_color_variables_dependants_adjust_rightness($color, $steps);
+  $steps = -1 * $percent / 100;
+  return css_color_variables_dependants_adjust_brightness($color, $steps);
 }
 
 /**
- *
+ * Action lighten [0-100]
  */
 function css_color_variables_dependants_action_lighten(string $color, string $percent) {
-  $steps = intval(255 / 100 * $percent);
-  return css_color_variables_dependants_adjust_rightness($color, $steps);
+  $steps = $percent / 100;
+  return css_color_variables_dependants_adjust_brightness($color, $steps);
 }
 
 /**
+ * Action opacity.
  *
+ * @param string $color
+ *   Hex color.
+ *
+ * @param int $percent
+ *   Opacity [0-100].
  */
 function css_color_variables_dependants_action_opacity(string $color, string $percent) {
   $hex = dechex(intval(255 / 100 * $percent));
@@ -98,38 +99,49 @@ function css_color_variables_dependants_action_opacity(string $color, string $pe
 }
 
 /**
+ * Adjust brightness.
  *
+ * Increases or decreases the brightness of a color by a percentage
+ * of the current brightness.
+ *
+ * @see https://stackoverflow.com/a/54393956/308533
+ *
+ * @param string $hexCode
+ *   Supported formats: `#FFF`, `#FFFFFF`, `FFF`, `FFFFFF`.
+ *
+ * @param float $adjustPercent
+ *   A number between -1 and 1. E.g. 0.3 = 30% lighter; -0.4 = 40% darker.
+ *
+ * @return string
  */
-function css_color_variables_dependants_hecToRGB($val) {
-  $sTrimmedString = substr(trim($val), 1, 6);
-  return array_map('hexdec', str_split($sTrimmedString, 2));
+function css_color_variables_dependants_adjust_brightness(string $hexCode, float $adjustPercent) {
+  $hexCode = ltrim($hexCode, '#');
+
+  if (strlen($hexCode) == 3) {
+    $hexCode = $hexCode[0] . $hexCode[0] . $hexCode[1] . $hexCode[1] . $hexCode[2] . $hexCode[2];
+  }
+
+  $hexCode = array_map('hexdec', str_split($hexCode, 2));
+
+  foreach ($hexCode as & $color) {
+    $adjustableLimit = $adjustPercent < 0 ? $color : 255 - $color;
+    $adjustAmount = ceil($adjustableLimit * $adjustPercent);
+
+    $color = str_pad(dechex($color + $adjustAmount), 2, '0', STR_PAD_LEFT);
+  }
+  return '#' . implode($hexCode);
 }
 
-/**
- * CSS like color adjustment.
- *
- * @credit https://stackoverflow.com/a/11951022/308533.
- */
-function css_color_variables_dependants_adjust_rightness($hex, $steps) {
-  // Steps should be between -255 and 255. Negative = darker, positive = lighter.
-  $steps = max(-255, min(255, $steps));
 
-  // Normalize into a six character long hex string.
-  $hex = str_replace('#', '', $hex);
-  if (strlen($hex) == 3) {
-    $hex = str_repeat(substr($hex, 0, 1), 2)
-      . str_repeat(substr($hex, 1, 1), 2)
-      . str_repeat(substr($hex, 2, 1), 2);
+function my_remap ($array) {
+  $mapped = [];
+  foreach ($array as $i => $set) {
+    if (!isset($mapped[key($set)])) {
+      $mapped[key($set)] = [];
+    }
+    if (!isset($mapped[key($set)][$array[$i][key($set)]])) {
+      $mapped[key($set)][] = $array[$i][key($set)];
+    }
   }
-  $color_parts = str_split($hex, 2);
-  $return = '#';
-
-  foreach ($color_parts as $color) {
-    $color = hexdec($color);
-    $color = max(0, min(255, $color + $steps));
-    // Make two char hex code.
-    $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT);
-  }
-
-  return $return;
+  return $mapped;
 }

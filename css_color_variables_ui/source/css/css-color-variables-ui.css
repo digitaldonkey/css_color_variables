@@ -1,8 +1,9 @@
 #color-schema-ui {
   position: fixed;
-  left: 50px;
-  width: 250px;
-  height: 150px;
+  left: 3.125rem;
+  width: 16rem;
+  height: auto;
+  padding: .5rem;
   top: 100px;
   text-align: center;
   z-index: 9999;
@@ -10,13 +11,23 @@
 
 #color-schema-ui .btn {
   clear: both;
-  margin-bottom: 5px;
+  margin-bottom: .5rem;
   white-space: normal;
   width: 100%;
 }
 
-#color-schema-ui .btn.save {
-  margin-top: 20px;
+#color-schema-ui .actions:before {
+  content: '-~~~ ❤ ~~~-';
+  text-align: center;
+  display: block;
+  color: #efefef;
+  line-height: 1.8rem;
+  padding-bottom: .25rem;
+  font-size: small;
+}
+
+#color-schema-ui .actions .btn {
+  margin: 0;
 }
 
 #color-schema-ui .picker_done > button {
