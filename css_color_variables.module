@@ -66,6 +66,7 @@ function css_color_variables_get_palette():?array {
  *   CSS code.
  */
 function css_color_variables_create_css_vars(array $palette) : string {
+  ksort($palette, SORT_NATURAL);
   $css = [];
   $css[] = ':root {';
   foreach ($palette as $color => $value) {
@@ -74,3 +75,4 @@ function css_color_variables_create_css_vars(array $palette) : string {
   $css[] = '}';
   return implode(PHP_EOL, $css);
 }
+
