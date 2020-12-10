@@ -3,56 +3,63 @@
 /**
  * @file
  * Lists available colors and color schemes for the IITB DJ theme.
+ *
+ * Theme requires some colors as variants.
+ *  primary           => --primary
+ *  primary__contrast => --primary--contrast.
  */
 
 $info = [
   // Available colors and color labels used in theme.
   'fields' => [
-    'site_background_color' => t('Window background'),
-    'font_content_color' => t('Content font color'),
-    'content_background_color' => t('Content background color'),
-    'header_background_color' => t('Header background color'),
-    'peripheral_color_primary' => t('Peripheral color primary'),
-    'font_contrast_color_primary' => t('Font on primary color background'),
-    'peripheral_color_secondary' => t('Peripheral color secondary'),
-    'font_contrast_color_secondary' => t('Font on secondary color background'),
-    'paragraphs_header_background_color' => t('Paragraphs header background color'),
-    'font_header_color' => t('Header font color'),
-    'font_footer_color' => t('Footer font color'),
+    'primary' => t('Primary'),
+    'primary__contrast' => t('Primary contrast'),
+    'secondary' => t('Socondary'),
+    'secondary__contrast' => t('Socondary contrast'),
+    'success' => t('Success'),
+    'success__contrast' => t('Success contrast'),
+    'info' => t('Info'),
+    'info__contrast' => t('Info contrast'),
+    'warning' => t('Warning'),
+    'warning__contrast' => t('Warning contrast'),
+    'danger' => t('Error'),
+    'danger__contrast' => t('Error contrast'),
+    'light' => t('Light'),
+    'light__contrast' => t('Light contrast'),
+    'dark' => t('Dark'),
+    'dark__contrast' => t('Dark contrast'),
   ],
   // Pre_defined color schemes.
   'schemes' => [
     'default' => [
-      'title' => t('NRW (default)'),
+      'title' => t('deGov default'),
       'colors' => [
-        'site_background_color' => '#c0c0c0',
-        'font_content_color' => '#333333',
-        'content_background_color' => '#ffffff',
-        'header_background_color' => '#ffffff',
-        'peripheral_color_primary' => '#233755',
-        'font_contrast_color_primary' => '#ffffff',
-        'peripheral_color_secondary' => '#3C506E',
-        'font_contrast_color_secondary' => '#ffffff',
-        'paragraphs_header_background_color' => '#EAEFF6',
-        'font_header_color' => '#3C506E',
-        'font_footer_color' => '#ffffff',
-      ],
-    ],
-    'crazy' => [
-      'title' => t('Crazy colors'),
-      'colors' => [
-        'site_background_color' => '#FF835B',
-        'font_content_color' => '#000000',
-        'content_background_color' => '#FFBF51',
-        'header_background_color' => '#C890FF',
-        'peripheral_color_primary' => '#c41d4d',
-        'font_contrast_color_primary' => '#1bd9dd',
-        'peripheral_color_secondary' => '#6335AE',
-        'font_contrast_color_secondary' => '#ffff00',
-        'paragraphs_header_background_color' => '#afff74',
-        'font_header_color' => '#ffca54',
-        'font_footer_color' => '#ff94f4',
+        'primary' => '#004673',
+        'primary__contrast' => '#ffffff',
+        'secondary' => '#818D97',
+        'secondary__contrast' => '#ffffff',
+        'success' => '#2e9955',
+        'success__contrast' => '#ffffff',
+        'info' => '#2dacbf',
+        'info__contrast' => '#ffffff',
+        'warning' => '#ffc51a',
+        'warning__contrast' => '#604302',
+        'danger' => '#b91827',
+        'danger__contrast' => '#f0f0f0',
+        'light' => '#e5e7e9',
+        'light__contrast' => '#083450',
+        'dark' => '#343a40',
+        'dark__contrast' => '#f8f9fa',
       ],
     ],
   ],
+  //    'crazy' => [
+  //      'title' => t('Crazy colors'),
+  //      'colors' => [
+  //
+  //             ...
+  //
+  //      ],
+  //    ],
+  //  ],
 ];

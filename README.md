@@ -27,9 +27,9 @@ drush cr
 
 Read more at [drupal.org/docs/theming-drupal/color-module](https://www.drupal.org/docs/theming-drupal/color-module).
 
-### Render variables
+#### Main module solely renders CSS variables
 
-Base module css_color_variables allows to render your themes color module colors into CSS variables.
+The main module `css_color_variables` allows to render your themes color module colors into CSS variables.
 
 After setting custom theme color variables you should see something like
 
@@ -53,28 +53,28 @@ So in your theme (S)CSS you can do things like
 }
 ```
 
-#### In your Theme
-
-SCSS
+#### In your Theme SCSS
 
 ```SCSS
 $peripheral-color-primary: var(--peripheral-color-primary);
 $peripheral-color-secondary: var(--peripheral-color-primary-contrast);
 ```
 
-You may run into issues with SASS functions, like darken(), lighten(), srgb().
+You may run into SASS issues with functions like darken(), lighten(), srgb(). Check out `css_color_variables_dependants `.
 
 
-```CSS
-.skin--background-secondary {
-  background: var(--peripheral-color-secondary);
-}
-```
-
-You may alter the color palette by implementing
+**Alter the color palette by implementing**
 
 ```PHP
-hook_css_color_variables_alter(&$colors, $theme_name){}
+/**
+ * Implements hook_css_color_variables_alter().
+ *
+ * @param $colors array
+ *   Current themes color palette before rendered.
+ * @param $theme_name string
+ *   Machine name of the requested theme.
+*/
+hook_css_color_variables_alter(array &$colors, string $theme_name){}
 ```
 
 
@@ -84,10 +84,14 @@ hook_css_color_variables_alter(&$colors, $theme_name){}
 
 Allows Users with `use color schema` permission to live edit and save the color palette.
 
+Make sure you have '.user-logged-in .nav-tabs.tabs--primary' or '.user-logged-in .nav-tabs.primary' available on your HTML. The module will attache a button 'Color schema UI toggle' there.
+
+If you have css_color_variables_dependants variables defined, they will visually updated (preview) as well. The page will be reloaded after save, so that
+
 
 ### css_color_variables_dependants
 
-Alters the color palette. This module allows you to replace common SCSS color functions like
+Alters the color palette. This module allows you to replace/workaround common SCSS color functions like
 
 ```SCSS
 lighten($link-color, 15%);
@@ -100,10 +104,10 @@ You could end up with something like
 ```css
 :root {
   --peripheral-color-primary: ##233755;
-  --peripheral-color-primary-darken-5: #176a1e;
-  --peripheral-color-primary-darken-15: #005004;
-  --peripheral-color-primary-lighten-15: #499c50;
-  --peripheral-color-primary-opacity-70: #23762ab2;
+  --peripheral-color-primary--darken-5: #176a1e;
+  --peripheral-color-primary--darken-15: #005004;
+  --peripheral-color-primary--lighten-15: #499c50;
+  --peripheral-color-primary--opacity-70: #23762ab2;
 }
 ```
 
