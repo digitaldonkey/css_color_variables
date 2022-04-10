@@ -10,7 +10,7 @@ import color from 'color';
   Drupal.behaviors.addLocalTaskCssColorVariablesUiToggle = {
     attach: () => {
       if (!_.isEmpty(drupalSettings.css_color_variables_ui.current_route)) {
-        const menu = $('.user-logged-in .nav-tabs.tabs--primary').length ? $('.user-logged-in .nav-tabs.tabs--primary') : $('.user-logged-in .nav-tabs.primary');
+        const menu = $('.user-logged-in .nav-tabs.tabs--primary, .user-logged-in .nav-tabs.primary, .user-logged-in .tabs.primary').first();
         menu
           .once()
           .append(
