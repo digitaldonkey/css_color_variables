@@ -75,7 +75,7 @@ import color from 'color';
         self.setButtonTextColor(button, value);
         const setValue = (hexVal) => {
           // Change CSS variable.
-          document.documentElement.style.setProperty(
+          document.body.style.setProperty(
             self.toCssVar(key),
             hexVal
           );
