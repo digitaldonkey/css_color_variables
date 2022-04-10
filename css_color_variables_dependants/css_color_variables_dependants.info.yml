@@ -1,6 +1,6 @@
-name: Creates css variable derivates
+name: CSS color variable dependants
 type: module
-description: Test
+description: Creates css variable derivates
 core: 8.x
 core_version_requirement: ^8 || ^9
 package: Theming

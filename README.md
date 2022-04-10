@@ -35,7 +35,7 @@ After setting custom theme color variables you should see something like
 
 
 ```
-:root {
+.has-css-color-variables {
     --peripheral-color-primary: red;
     --peripheral-color-secondary: gold;
     --peripheral-color-primary-contrast: green;
@@ -68,11 +68,11 @@ You may run into SASS issues with functions like darken(), lighten(), srgb(). Ch
 ```PHP
 /**
  * Implements hook_css_color_variables_alter().
- *
+ * 
  * @param $colors array
- *   Current themes color palette before rendered.
+ *  Current themes color palette before rendered. 
  * @param $theme_name string
- *   Machine name of the requested theme.
+ *   Machine name of the requested theme.  
 */
 hook_css_color_variables_alter(array &$colors, string $theme_name){}
 ```

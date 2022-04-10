@@ -1,4 +1,4 @@
-name: Life edit for css color variables
+name: Life edit for CSS color variables
 type: module
 description: Live editing colors with using a widget.
 core: 8.x
