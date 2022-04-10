@@ -28,12 +28,14 @@ function css_color_variables_ui_theme($existing, $type, $theme, $path) {
     $theme = \Drupal::service('theme.manager')->getActiveTheme();
     $theme_color_definition = color_get_info($theme->getName());
     // Todo Cache with theme setting?
-    return [
-      'css_color_variables_ui' => [
-        'variables' => [
-          'colors' => $theme_color_definition['fields']
+    if (isset($theme_color_definition['fields'])) {
+      return [
+        'css_color_variables_ui' => [
+          'variables' => [
+            'colors' => $theme_color_definition['fields']
+          ],
         ],
-      ],
-    ];
+      ];
+    }
   }
 }
