@@ -1,0 +1,8 @@
+name: Css color variables Demo Page
+type: module
+description: Demo Page for all Colors and Variants
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Theming
+dependencies:
+  - css_color_variables

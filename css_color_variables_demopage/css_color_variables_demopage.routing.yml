@@ -1,0 +1,7 @@
+css_color_variables_demopage.demopage:
+  path: '/css_color_variables_demopage'
+  defaults:
+    _title: 'Demopage for css_color_variables'
+    _controller: '\Drupal\css_color_variables_demopage\Controller\CssColorVariablesDemopage::index'
+  requirements:
+    _permission: 'use color schema ui'
