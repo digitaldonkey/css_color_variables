@@ -36,7 +36,7 @@ class CssColorVariablesDemopage extends ControllerBase {
           'id' => $color,
           'css_var' => '--' . str_replace('_', '-', $color),
           'is_editable' => TRUE,
-          'variants' => $this->_preprocessColor($color_variants, $color),
+          'variants' => $this->_preprocessColor($color_variants, array_keys($theme_color_definition['fields'])),
           ],
         ]);
     }
@@ -47,9 +47,9 @@ class CssColorVariablesDemopage extends ControllerBase {
   }
 
 
-  private function _preprocessColor(Array $color_variables, String $exclude) {
+  private function _preprocessColor(Array $color_variables, Array $exclude) {
     foreach ($color_variables as $id => $value) {
-      if ($id === $exclude) {
+      if (in_array($id, $exclude)) {
         unset($color_variables[$id]);
       }
       else {
