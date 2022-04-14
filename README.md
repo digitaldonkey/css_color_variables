@@ -99,7 +99,7 @@ darken($btn-primary-bg, 5%)
 transparentize($background-color, .7);
 ```
 
-You could end up with something like
+You may end up with something like
 
 ```css
 :root {
