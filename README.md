@@ -121,3 +121,12 @@ myTheme
    - color.inc
    - css_color_variables_dependants.yml
 ```
+
+### css_color_variables_demopage
+
+Review colors and Derivates in your theme on /css_color_variables_demopage
+
+### css_color_variables_ie11
+
+Internet Explorer 11 polyfill for css variables.
+
