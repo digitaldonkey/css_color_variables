@@ -35,6 +35,7 @@ class CssColorVariablesDemopage extends ControllerBase {
           'title' => $title,
           'id' => $color,
           'css_var' => '--' . str_replace('_', '-', $color),
+          'css_value' => $color_variants[$color],
           'is_editable' => TRUE,
           'variants' => $this->_preprocessColor($color_variants, array_keys($theme_color_definition['fields'])),
           ],
@@ -56,6 +57,7 @@ class CssColorVariablesDemopage extends ControllerBase {
         $color_variables[$id] = [
           'id' => $id,
           'css_var' => '--' . str_replace('_', '-', $id),
+          'css_value' => $color_variables[$id],
           'is_editable' => FALSE
         ];
       }
@@ -83,7 +85,7 @@ class CssColorVariablesDemopage extends ControllerBase {
       if (isset($color['css_var'])) {
         $width = $color['is_editable'] ? '8.3rem' : '3rem';
         $width = $color['is_editable'] ? '8.3rem' : '3rem';
-        $height = $color['is_editable'] ? '1.5rem' : '1.5rem';
+        $height = $color['is_editable'] ? '3rem' : '2.5rem';
         $fontsize = $color['is_editable'] ? '1rem' : '.8rem';
         $display = $color['is_editable'] ? 'block' : 'inline-block';
 
@@ -106,9 +108,9 @@ class CssColorVariablesDemopage extends ControllerBase {
           [
             '#tag' => 'pre',
             '#type' => 'html_tag',
-            '#value' => $color['css_var'],
+            '#value' => $color['css_var'] . PHP_EOL . "  " . $color['css_value'],
             '#attributes' => [
-              'style' => "font-size: $fontsize; display: inline-block; line-height: $height; flex-shrink: 0;",
+              'style' => "font-size: $fontsize; display: inline-block; flex-shrink: 0;",
             ],
           ],
         ];
@@ -131,7 +133,7 @@ class CssColorVariablesDemopage extends ControllerBase {
           '#type' => 'html_tag',
           '#tag' => 'div',
           '#attributes' => [
-            'style' => "font-size: $fontsize; display: inline-block; line-height: $height;",
+            'style' => "font-size: $fontsize; display: inline-block;",
           ],
           0 => $this->_renderDirty($color['variants']),
         ];
