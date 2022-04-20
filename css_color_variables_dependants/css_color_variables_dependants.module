@@ -95,6 +95,7 @@ function css_color_variables_dependants_action_lighten(string $color, string $pe
  */
 function css_color_variables_dependants_action_opacity(string $color, string $percent) {
   $hex = dechex(intval(255 / 100 * $percent));
+  $hex = strlen($hex) === 1 ? "0$hex" : $hex;
   return $color . $hex;
 }
 
