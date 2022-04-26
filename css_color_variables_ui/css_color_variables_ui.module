@@ -25,8 +25,8 @@ function css_color_variables_ui_page_attachments(array &$attachments) {
  */
 function css_color_variables_ui_theme($existing, $type, $theme, $path) {
   if (\Drupal::moduleHandler()->moduleExists('color')) {
-    $theme = \Drupal::service('theme.manager')->getActiveTheme();
-    $theme_color_definition = color_get_info($theme->getName());
+    $theme_name = \Drupal::config('system.theme')->get('default');
+    $theme_color_definition = color_get_info($theme_name);
     // Todo Cache with theme setting?
     if (isset($theme_color_definition['fields'])) {
       return [
